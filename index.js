@@ -71,7 +71,7 @@ client.Hypixel_client = new Hypixel({ key: config.apiKeys.hypixel });
 
 // update tier every hour
 function removeFromArray (array, item) {
-  var index = array.indexOf(item);
+  let index = array.indexOf(item);
   if (index !== -1) array.splice(index, 1);
 }
 
@@ -106,7 +106,7 @@ schedule.scheduleJob('0 */1 * * *', function() {
           for (var member of guild.members) {
 
             if(!uuid_discord.keyArray().includes(member.uuid)) return;
-            var weekly = 0;
+            let weekly = 0;
             for (var key in member.expHistory) {
               weekly += member.expHistory[key];
             }
@@ -127,12 +127,12 @@ schedule.scheduleJob('0 */1 * * *', function() {
             removeFromArray(memberRoles, tiers.tier2);
             removeFromArray(memberRoles, tiers.tier3);
 
-            var tier = "";
+            let tier = "";
                  if (weekly >= 200000) tier = "tier1";
             else if (weekly >= 100000)  tier = "tier2";
             else                       tier = "tier3";
 
-            var newTier = eval("tiers."+tier);
+            let newTier = eval("tiers."+tier);
             memberRoles.push(newTier);
 
             if (oldTier === newTier) return;
@@ -157,7 +157,7 @@ schedule.scheduleJob('0 */1 * * *', function() {
 var gexp_record = [];
 
 function numberWithCommas(x) {
-    var parts = x.toString().split(".");
+    let parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
 }
@@ -191,16 +191,16 @@ schedule.scheduleJob('0 */1 * * *', function () {
                   "Rank        Guild         Levels  Members    Experience\n"+
                   "----------------------------------------------------------\n";
       var lines = [];
-      var line = "";
-      var pos_rec;
+      let line = "";
+      let pos_rec;
       for (trow of leaderboard_table) {
-        var row = {};
+        let row = {};
         row.rank = trow.childNodes[0].childNodes[0].rawText;
         row.guild = trow.childNodes[1].childNodes[0].rawAttrs.slice(26).slice(0,-1);
         row.experience = trow.childNodes[2].childNodes[0].rawText;
         row.members = trow.childNodes[3].childNodes[0].rawText;
         if (row.rank > 15) break;
-        var diff = 0;
+        let diff = 0;
         diff = parseInt(row.experience.replace(/,/g, '')) - gexp_record[row.rank-1];
         if(!gexp_record[row.rank-1]) diff = 0;
         gexp_record[row.rank-1] = parseInt(row.experience.replace(/,/g, ''));
@@ -335,6 +335,7 @@ function updateGexpRecord(i) {
     });
   });
 }
+
 schedule.scheduleJob('0 22 * * *', function () {
 
   console.log("-----------------------");
